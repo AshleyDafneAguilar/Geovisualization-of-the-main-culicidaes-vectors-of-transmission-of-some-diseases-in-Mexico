@@ -1,5 +1,7 @@
 <h1 align="center">Geovisualization of Lutzomyia Cruciata and Lutzomyia Olmeca Olmeca (Psychodidae), main vectors of leishmaniasis transmission in Mexico</h1>
 
+![img1](./img/microphotographs_lutzomyia.jpeg)
+
 ## Author 
 - [Ashley Dafne Aguilar Salinas - UNAM ENES Morelia](https://github.com/AshleyDafneAguilar)
 
