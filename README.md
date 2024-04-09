@@ -1,4 +1,4 @@
-<h1 align="center">Geovisualization of the main culicidae, vectors of transmission of the main diseases in Mexico.</h1>
+<h1 align="center">Geovisualization of the main culicidae, vectors of disease transmission that put the Mexican population at risk</h1>
 
 
 ## Author 
