@@ -1,16 +1,11 @@
-<h1 align="center">Geovisualization of Lutzomyia Cruciata and Lutzomyia Olmeca Olmeca (Psychodidae), main vectors of leishmaniasis transmission in Mexico</h1>
+<h1 align="center">Geovisualization of the main culicidae, vectors of transmission of the main diseases in Mexico.</h1>
 
-![img1](./img/microphotographs_lutzomyia.jpeg)
 
 ## Author 
 - [Ashley Dafne Aguilar Salinas - UNAM ENES Morelia](https://github.com/AshleyDafneAguilar)
 
 
 ## Introduction 
-Leishmaniasis is a vector-borne parasitic and zoonotic disease with a complex transmission cycle involving a great diversity of parasites, reservoirs and vectors.  It is caused by different species of protozoa of the genus **Leishmania** that are transmitted through the bite of insects of the family **Psychodidae** [1].
-
-Three main forms of leishmaniasis are known: *visceral*, *cutaneous* and *mucocutaneous*. In the American region, *cutaneous leishmaniasis* is considered the usual form; it is registered in 21 countries and is endemic in 19. Mexico is one of them, specifically in the Yucatan Peninsula. 
-The causative agent of *Leishmania mexicana* is transmitted to humans by the bite of the insect vector **Lutzomyia olmeca olmeca** and potentially also by **Lutzomyia cruciata** [4].
 
 
 ## Objectives
