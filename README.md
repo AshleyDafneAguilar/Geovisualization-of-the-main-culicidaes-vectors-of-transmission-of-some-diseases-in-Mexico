@@ -1,5 +1,6 @@
 <h1 align="center">Geovisualization of the main culicidae, vectors of disease transmission that put the Mexican population at risk</h1>
 
+![img1](./img/culicidae.jpg)
 
 ## Author 
 - [Ashley Dafne Aguilar Salinas - UNAM ENES Morelia](https://github.com/AshleyDafneAguilar)
