@@ -299,3 +299,143 @@ aegypti.to_csv('aegypti.csv', index=False)
 aegypti_1970_1985.to_csv('aegypti(1970-1985).csv', index=False)
 aegypti_1985_2000.to_csv('aegypti(1985-2000).csv', index=False)
 aegypti_2000_2015.to_csv('aegypti(2000-2015).csv', index=False)
+
+"""### Anopheles
+
+#### **Albimanus**
+
+- Columnas
+"""
+
+albimanus.columns.values
+
+albimanus = albimanus.loc[:, ['verbatimScientificName','decimalLatitude','decimalLongitude',
+                              'coordinateUncertaintyInMeters', 'eventDate', 'year']]
+
+"""---
+
+- Selección de especie
+
+Nos quedamos con aquellos datos donde en la columna **verbatimScientificName** contengan la palabra *albimanus*
+"""
+
+albimanus.verbatimScientificName.unique()
+
+#case = False:  ignore la diferencias entre mayúsculas y minúsculas.
+albimanus = albimanus[albimanus.verbatimScientificName.str.contains('albimanus', case=False)]
+
+"""---
+
+- Datos Nulos
+"""
+
+albimanus.isnull().sum()
+
+"""Modificamos los valores nulos de la columna **coordinateUncertaintyInMeters** pensando en que fueron exactos al tomar las coordenadas."""
+
+albimanus.coordinateUncertaintyInMeters = albimanus.coordinateUncertaintyInMeters.fillna(0)
+
+albimanus.coordinateUncertaintyInMeters.unique()
+
+"""Observamos que hay datos mayores a 100 en la incertidumbre, estos datos serán eliminados."""
+
+albimanus = albimanus[albimanus.coordinateUncertaintyInMeters <= 100]
+
+albimanus
+
+"""---
+
+- Modificar datos
+
+En la sección anterior observamos que hay más datos nulos en la columna **year** que en la columna **eventDate**. Como el dato de año es importante para este trabajo se decide obtener este elemento de la columna **eventDate** con la finalidad de no perder demasiados datos.
+"""
+
+#observar formato
+albimanus.eventDate.unique()
+
+#borramos los datos nulos de eventDate
+albimanus = albimanus.dropna(subset = ['eventDate']); albimanus
+
+#selecciona unicamente el año
+#de la columna eventDate
+
+date = albimanus.eventDate
+year = pd.Series([int(i[:4]) for i in date]); year
+
+#al tener todos los valores del año
+#borramos las columnas eventDate y year
+
+albimanus = albimanus.drop ('year', axis = 1)
+albimanus = albimanus.drop ('eventDate', axis = 1)
+
+#agregamos los valores de year
+albimanus['year'] = list(year)
+
+#ya no hay valores nulos
+albimanus.isnull().sum()
+
+"""---
+
+- Segmentación por año
+
+>[1970-1985)
+>
+>[1985-2000)
+>
+>[2000-2012)
+>
+>[2015-2024]
+"""
+
+min(albimanus.year), max(albimanus.year)
+
+albimanus_1902_1970 = albimanus[(albimanus.year >= 1902) & (albimanus.year < 1970)] #Se  guardan los datos que fueron  registrados antes de 1970
+albimanus_1970_1985 = albimanus[(albimanus.year >= 1970) & (albimanus.year < 1985)]
+albimanus_1985_2000 = albimanus[(albimanus.year >= 1985) & (albimanus.year < 2000)]
+albimanus_2000_2015 = albimanus[(albimanus.year >= 2000) & (albimanus.year < 2015)]
+albimanus_2015_2024 = albimanus[(albimanus.year >= 2015) & (albimanus.year <= 2024)]
+
+"""---
+
+- Datos duplicados
+"""
+
+#hay datos duplicados
+albimanus_1902_1970.duplicated().unique()
+
+albimanus_1902_1970 = albimanus_1902_1970.drop_duplicates()
+
+#hay datos duplicados
+albimanus_1970_1985.duplicated().unique()
+
+albimanus_1970_1985 = albimanus_1970_1985.drop_duplicates()
+
+#hay datos duplicados
+albimanus_1985_2000.duplicated().unique()
+
+albimanus_1985_2000 = albimanus_1985_2000.drop_duplicates()
+
+#hay datos duplicados
+albimanus_2000_2015.duplicated().unique()
+
+albimanus_2000_2015 = albimanus_2000_2015.drop_duplicates()
+
+#hay datos duplicados
+albimanus_2015_2024.duplicated().unique()
+
+albimanus_2015_2024 = albimanus_2015_2024.drop_duplicates()
+
+"""---
+
+- Guardar en .csv
+"""
+
+albimanus.to_csv('albimanus.csv', index=False)
+albimanus_1902_1970.to_csv('albimanus(1902-1970).csv', index=False)
+albimanus_1970_1985.to_csv('albimanus(1970-1985).csv', index=False)
+albimanus_1985_2000.to_csv('albimanus(1985-2000).csv', index=False)
+albimanus_2000_2015.to_csv('albimanus(2000-2015).csv', index=False)
+albimanus_2015_2024.to_csv('albimanus(2015-2024).csv', index=False)
+
+"""---
+
