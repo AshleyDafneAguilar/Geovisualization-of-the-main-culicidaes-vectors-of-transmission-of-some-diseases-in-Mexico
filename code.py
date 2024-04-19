@@ -438,4 +438,133 @@ albimanus_2000_2015.to_csv('albimanus(2000-2015).csv', index=False)
 albimanus_2015_2024.to_csv('albimanus(2015-2024).csv', index=False)
 
 """---
+#### **Pseudopunctipennis**
+
+- Columnas
+"""
+
+pseudopunctipennis.columns.values
+
+pseudopunctipennis = pseudopunctipennis.loc[:, ['verbatimScientificName','decimalLatitude','decimalLongitude',
+                              'coordinateUncertaintyInMeters', 'eventDate', 'year']]
+
+"""---
+- Selección de especie
+
+Nos quedamos con aquellos datos donde en la columna **verbatimScientificName** contengan la palabra *pseudopunctipennis*
+"""
+
+pseudopunctipennis.verbatimScientificName.unique()
+
+#case = False:  ignore la diferencias entre mayúsculas y minúsculas.
+pseudopunctipennis = pseudopunctipennis[pseudopunctipennis.verbatimScientificName.str.contains('pseudopunctipennis', case=False)]
+"""---
+
+- Datos Nulos
+"""
+
+pseudopunctipennis.isnull().sum()
+
+"""Modificamos los valores nulos de la columna **coordinateUncertaintyInMeters** pensando en que fueron exactos al tomar las coordenadas."""
+
+pseudopunctipennis.coordinateUncertaintyInMeters = pseudopunctipennis.coordinateUncertaintyInMeters.fillna(0)
+
+pseudopunctipennis.coordinateUncertaintyInMeters.unique()
+
+"""Observamos que hay datos mayores a 100 en la incertidumbre, estos datos serán eliminados."""
+
+pseudopunctipennis = pseudopunctipennis[pseudopunctipennis.coordinateUncertaintyInMeters <= 100]; pseudopunctipennis
+
+"""---
+
+- Modificar datos
+
+En la sección anterior observamos que hay más datos nulos en la columna **year** que en la columna **eventDate**. Como el dato de año es importante para este trabajo se decide obtener este elemento de la columna **eventDate** con la finalidad de no perder demasiados datos.
+"""
+
+#observar formato
+pseudopunctipennis.eventDate.unique()
+
+#borramos los datos nulos de eventDate
+pseudopunctipennis = pseudopunctipennis.dropna(subset = ['eventDate']); pseudopunctipennis
+
+#selecciona unicamente el año
+#de la columna eventDate
+
+date = pseudopunctipennis.eventDate
+year = pd.Series([int(i[:4]) for i in date]); year
+
+#al tener todos los valores del año
+#borramos las columnas eventDate y year
+
+pseudopunctipennis = pseudopunctipennis.drop ('year', axis = 1)
+pseudopunctipennis = pseudopunctipennis.drop ('eventDate', axis = 1)
+
+#agregamos los valores de year
+pseudopunctipennis['year'] = list(year)
+
+pseudopunctipennis.isnull().sum()
+
+"""---
+
+- Segmentación por año
+
+>[1970-1985)
+>
+>[1985-2000)
+>
+>[2000-2012)
+>
+>[2015-2024]
+"""
+
+min(pseudopunctipennis.year), max(pseudopunctipennis.year)
+
+pseudopunctipennis_1925_1970 = pseudopunctipennis[(pseudopunctipennis.year >= 1925) & (pseudopunctipennis.year < 1970)] #Se  guardan los datos que fueron  registrados antes de 1970
+pseudopunctipennis_1970_1985 = pseudopunctipennis[(pseudopunctipennis.year >= 1970) & (pseudopunctipennis.year < 1985)]
+pseudopunctipennis_1985_2000 = pseudopunctipennis[(pseudopunctipennis.year >= 1985) & (pseudopunctipennis.year < 2000)]
+pseudopunctipennis_2000_2015 = pseudopunctipennis[(pseudopunctipennis.year >= 2000) & (pseudopunctipennis.year < 2015)]
+pseudopunctipennis_2015_2024 = pseudopunctipennis[(pseudopunctipennis.year >= 2015) & (pseudopunctipennis.year <= 2024)]
+
+"""---
+
+- Datos duplicados
+"""
+
+#hay datos duplicados
+pseudopunctipennis_1925_1970.duplicated().unique()
+
+pseudopunctipennis_1925_1970 = pseudopunctipennis_1925_1970.drop_duplicates()
+
+#hay datos duplicados
+pseudopunctipennis_1970_1985.duplicated().unique()
+
+pseudopunctipennis_1970_1985 = pseudopunctipennis_1970_1985.drop_duplicates()
+
+#hay datos nulos
+pseudopunctipennis_1985_2000.duplicated().unique()
+
+pseudopunctipennis_1985_2000 = pseudopunctipennis_1985_2000.drop_duplicates()
+
+#hay datos nulos
+pseudopunctipennis_2000_2015.duplicated().unique()
+
+pseudopunctipennis_2000_2015 = pseudopunctipennis_2000_2015.drop_duplicates()
+
+#hay datos duplicados
+pseudopunctipennis_2015_2024.duplicated().unique()
+
+pseudopunctipennis_2015_2024 = pseudopunctipennis_2015_2024.drop_duplicates()
+
+"""---
+
+- Guardar en .csv
+"""
+
+pseudopunctipennis.to_csv('pseudopunctipennis.csv', index=False)
+pseudopunctipennis_1925_1970.to_csv('pseudopunctipennis(1925-1970).csv', index=False)
+pseudopunctipennis_1970_1985.to_csv('pseudopunctipennis(1970-1985).csv', index=False)
+pseudopunctipennis_1985_2000.to_csv('pseudopunctipennis(1985-2000).csv', index=False)
+pseudopunctipennis_2000_2015.to_csv('pseudopunctipennis(2000-2015).csv', index=False)
+pseudopunctipennis_2015_2024.to_csv('pseudopunctipennis(2015-2024).csv', index=False)
 
