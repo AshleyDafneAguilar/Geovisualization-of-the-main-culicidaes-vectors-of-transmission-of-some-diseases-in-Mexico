@@ -1,7 +1,7 @@
 <h1 align="center">Geovisualization of the main culicidae, vectors of disease transmission that put the Mexican population at risk</h1>
 
 <p align="center">
- <img src="./img/culicidae_GBIF.png" alt="culicidae_MX">
+ <img src="./img/presencia_cluicidae.png" alt="culicidae_MX">
 </p>
 
 ## Author 
