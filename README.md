@@ -9,10 +9,8 @@
 
 
 ## Introduction 
+The following work aims to perform geospatial visualizations of the main species of culicidae, causal agents of diseases such as leishmaniasis, dengue and malaria in Mexico. With the objective of observing the climatic conditions of their habitat and the overlapping presence of vector-cases of the aforementioned diseases. 
 
-
-## Objectives
-Some ideas are to perform cluster analysis, visualize the behavior of the clusters over the years, identify the ecological niche of the species to find possible points of presence in all of Mexico, since the data are only shown in Southeast Mexico, etc.
 
 
 ## References
