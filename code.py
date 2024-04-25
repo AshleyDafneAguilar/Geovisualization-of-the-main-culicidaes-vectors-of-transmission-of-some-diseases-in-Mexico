@@ -856,5 +856,345 @@ pseudopunctipennis_1970_1985.to_csv('pseudopunctipennis(1970-1985).csv', index=F
 pseudopunctipennis_1985_2000.to_csv('pseudopunctipennis(1985-2000).csv', index=False)
 pseudopunctipennis_2000_2015.to_csv('pseudopunctipennis(2000-2015).csv', index=False)
 pseudopunctipennis_2015_2024.to_csv('pseudopunctipennis(2015-2024).csv', index=False)
+"""---
+
+## Capas bioclimáticas
+
+Concatenar la información del paso anterior, Limpieza de datos, con la información de las capas bioclimaticas obtenidas en QGIS
+
+### Aegypti
+
+#### Concatenación de datos
+"""
+
+aegypti_capas = pd.read_csv('/content/drive/MyDrive/Ecologia/Dataset/dataset_capas/Aegypti.csv')
+
+"""Vemos que coincide el orden de la información del Datframe que contiene los valores de las capas bioclimáticas de cada individuo con la información general antes seleccionada del individuo. Por lo que concatenamos estos dos Dataframes"""
+
+#comprobación del orde
+aegypti1 = aegypti_capas[['X', 'Y']]
+aegypti2 = aegypti[['decimalLongitude', 'decimalLatitude']]
+
+aegypti1.reset_index(drop=True, inplace=True)
+aegypti2.reset_index(drop=True, inplace=True)
+
+pd.concat([ aegypti1, aegypti2], axis=1)
+
+#borro la columna X, Y de aegypti_capas
+aegypti_capas.drop('X', axis = 1, inplace =True)
+aegypti_capas.drop('Y', axis = 1, inplace = True)
+
+aegypti_capas.reset_index(drop=True, inplace=True)
+
+aegypti.reset_index(drop=True, inplace=True)
+
+aegypti_capas = pd.concat([ aegypti, aegypti_capas], axis=1); aegypti_capas
+
+"""---
+
+#### Datos nulos
+"""
+
+aegypti_capas.isnull().sum()
+
+#borramos los datos faltantes
+aegypti_capas = aegypti_capas.dropna()
+#borramos la columna fid
+aegypti_capas = aegypti_capas.drop('fid', axis =1)
+
+"""---
+
+#### Segementación por año
+>[1970-1985)
+>
+>[1985-2000)
+>
+>[2000-2012)
+>
+>[2015-2024]
+"""
+
+aegypti_capas_1970_1985 = aegypti_capas[(aegypti_capas.year >= 1970) & (aegypti_capas.year < 1985)]
+aegypti_capas_1985_2000 = aegypti_capas[(aegypti_capas.year >= 1985) & (aegypti_capas.year < 2000)]
+aegypti_capas_2000_2015 = aegypti_capas[(aegypti_capas.year >= 2000) & (aegypti_capas.year < 2015)]
+
+"""---
+
+#### Guarda .csv
+"""
+
+aegypti_capas.to_csv('aegypti_capas.csv', index=False)
+aegypti_capas_1970_1985.to_csv('aegypti_capas(1970-1985).csv', index=False)
+aegypti_capas_1985_2000.to_csv('aegypti_capas(1985-2000).csv', index=False)
+aegypti_capas_2000_2015.to_csv('aegypti_capas(2000-2015).csv', index=False)
+
+"""---
+
+### Albimanus
+
+#### Concatenación de datos
+"""
+
+albimanus_capas = pd.read_csv('/content/drive/MyDrive/Ecologia/Dataset/dataset_capas/Albimanus.csv'); albimanus_capas
+
+"""Vemos que coincide el orden de la información del Datframe que contiene los valores de las capas bioclimáticas de cada individuo con la información general antes seleccionada del individuo. Por lo que concatenamos estos dos Dataframes"""
+
+#comprobación del orde
+albimanus1 = albimanus_capas[['X', 'Y']]
+albimanus2 = albimanus[['decimalLongitude', 'decimalLatitude']]
+
+albimanus1.reset_index(drop=True, inplace=True)
+albimanus2.reset_index(drop=True, inplace=True)
+
+pd.concat([ albimanus1, albimanus2], axis=1)
+
+#borro la columna X, Y de albimanus_capas
+albimanus_capas.drop('X', axis = 1, inplace =True)
+albimanus_capas.drop('Y', axis = 1, inplace = True)
+
+albimanus_capas.reset_index(drop=True, inplace=True)
+
+albimanus.reset_index(drop=True, inplace=True)
+
+albimanus_capas = pd.concat([ albimanus, albimanus_capas], axis=1); albimanus_capas
+
+"""---
+
+#### Datos nulos
+"""
+
+albimanus_capas.isnull().sum()
+
+#borramos los datos faltantes
+albimanus_capas = albimanus_capas.dropna()
+#borramos la columna fid
+albimanus_capas = albimanus_capas.drop('fid', axis =1)
+
+"""---
+
+#### Segementación por año
+>[1970-1985)
+>
+>[1985-2000)
+>
+>[2000-2012)
+>
+>[2015-2024]
+"""
+
+albimanus_capas_1902_1970 = albimanus_capas[(albimanus_capas.year >= 1902) & (albimanus_capas.year < 1970)] #Se  guardan los datos que fueron  registrados antes de 1970
+albimanus_capas_1970_1985 = albimanus_capas[(albimanus_capas.year >= 1970) & (albimanus_capas.year < 1985)]
+albimanus_capas_1985_2000 = albimanus_capas[(albimanus_capas.year >= 1985) & (albimanus_capas.year < 2000)]
+albimanus_capas_2000_2015 = albimanus_capas[(albimanus_capas.year >= 2000) & (albimanus_capas.year < 2015)]
+albimanus_capas_2015_2024 = albimanus_capas[(albimanus_capas.year >= 2015) & (albimanus_capas.year <= 2024)]
+
+"""---
+
+#### Guarda .csv
+"""
+
+albimanus_capas.to_csv('albimanus_capas.csv', index=False)
+albimanus_capas_1902_1970.to_csv('albimanus_capas(1902-1970).csv', index=False)
+albimanus_capas_1970_1985.to_csv('albimanus_capas(1970-1985).csv', index=False)
+albimanus_capas_1985_2000.to_csv('albimanus_capas(1985-2000).csv', index=False)
+albimanus_capas_2000_2015.to_csv('albimanus_capas(2000-2015).csv', index=False)
+albimanus_capas_2015_2024.to_csv('albimanus_capas(2015-2024).csv', index=False)
+
+"""---
+
+### Hendersoni
+
+#### Concatenación de datos
+"""
+
+hendersoni_capas = pd.read_csv('/content/drive/MyDrive/Ecologia/Dataset/dataset_capas/Hendersoni.csv')
+
+"""Vemos que coincide el orden de la información del Datframe que contiene los valores de las capas bioclimáticas de cada individuo con la información general antes seleccionada del individuo. Por lo que concatenamos estos dos Dataframes"""
+
+#comprobación del orde
+hendersoni1 = hendersoni_capas[['X', 'Y']]
+hendersoni2 = hendersoni[['decimalLongitude', 'decimalLatitude']]
+
+hendersoni1.reset_index(drop=True, inplace=True)
+hendersoni2.reset_index(drop=True, inplace=True)
+
+pd.concat([hendersoni1, hendersoni2], axis=1)
+
+#borro la columna X, Y de hendersoni_capas
+hendersoni_capas.drop('X', axis = 1, inplace =True)
+hendersoni_capas.drop('Y', axis = 1, inplace = True)
+
+hendersoni_capas.reset_index(drop=True, inplace=True)
+
+hendersoni.reset_index(drop=True, inplace=True)
+
+hendersoni_capas = pd.concat([hendersoni, hendersoni_capas], axis=1); hendersoni_capas
+
+"""---
+
+#### Segementación por año
+>[1970-1985)
+>
+>[1985-2000)
+>
+>[2000-2012)
+>
+>[2015-2024]
+"""
+
+#borramos la columna fid
+hendersoni_capas = hendersoni_capas.drop('fid', axis =1)
+
+hendersoni_capas_1970_1985 = hendersoni_capas[(hendersoni_capas.year >= 1970) & (hendersoni_capas.year < 1985)]
+
+"""---
+
+#### Guarda .csv
+"""
+
+hendersoni_capas.to_csv('hendersoni_capas.csv', index=False)
+hendersoni_capas_1970_1985.to_csv('hendersoni_capas(1970-1985).csv', index=False)
+
+"""---
+
+### Triseriatus
+
+#### Concatenación de datos
+"""
+
+triseriatus_capas = pd.read_csv('/content/drive/MyDrive/Ecologia/Dataset/dataset_capas/Triseriatus.csv')
+
+"""Vemos que coincide el orden de la información del Datframe que contiene los valores de las capas bioclimáticas de cada individuo con la información general antes seleccionada del individuo. Por lo que concatenamos estos dos Dataframes"""
+
+#comprobación del orde
+triseriatus1 = triseriatus_capas[['X', 'Y']]
+triseriatus2 = triseriatus[['decimalLongitude', 'decimalLatitude']]
+
+triseriatus1.reset_index(drop=True, inplace=True)
+triseriatus2.reset_index(drop=True, inplace=True)
+
+pd.concat([triseriatus1, triseriatus2], axis=1)
+
+#borro la columna X, Y de triseriatus_capas
+triseriatus_capas.drop('X', axis = 1, inplace =True)
+triseriatus_capas.drop('Y', axis = 1, inplace = True)
+
+triseriatus_capas.reset_index(drop=True, inplace=True)
+
+triseriatus.reset_index(drop=True, inplace=True)
+
+triseriatus_capas = pd.concat([triseriatus, triseriatus_capas], axis=1); triseriatus_capas
+
+"""---
+
+#### Datos nulos
+"""
+
+triseriatus_capas.isnull().sum()
+
+#borramos los datos faltantes
+triseriatus_capas = triseriatus_capas.dropna()
+#borramos la columna fid
+triseriatus_capas = triseriatus_capas.drop('fid', axis =1)
+
+"""---
+
+#### Segementación por año
+>[1970-1985)
+>
+>[1985-2000)
+>
+>[2000-2012)
+>
+>[2015-2024]
+"""
+
+triseriatus_capas_1954_1970 = triseriatus_capas[(triseriatus_capas.year >= 1954) & (triseriatus_capas.year < 1970)]
+triseriatus_capas_1985_2000 = triseriatus_capas[(triseriatus_capas.year >= 1985) & (triseriatus_capas.year < 2000)]
+triseriatus_capas_2000_2015 = triseriatus_capas[(triseriatus_capas.year >= 200) & (triseriatus_capas.year < 20015)]
+
+"""---
+
+#### Guarda .csv
+"""
+
+triseriatus_capas.to_csv('triseriatus_capas.csv', index=False)
+triseriatus_capas_1954_1970.to_csv('triseriatus_capas(1954-1970).csv', index=False)
+triseriatus_capas_1985_2000.to_csv('triseriatus_capas(1985-2000).csv', index=False)
+triseriatus_capas_2000_2015.to_csv('triseriatus_capas(2000-2015).csv', index=False)
+
+"""---
+
+### Pseudopunctipennis
+
+#### Concatenación de datos
+"""
+
+pseudopunctipennis_capas = pd.read_csv('/content/drive/MyDrive/Ecologia/Dataset/dataset_capas/Pseudopunctipennis.csv')
+
+"""Vemos que coincide el orden de la información del Datframe que contiene los valores de las capas bioclimáticas de cada individuo con la información general antes seleccionada del individuo. Por lo que concatenamos estos dos Dataframes"""
+
+#comprobación del orde
+pseudopunctipennis1 = pseudopunctipennis_capas[['X', 'Y']]
+pseudopunctipennis2 = pseudopunctipennis[['decimalLongitude', 'decimalLatitude']]
+
+pseudopunctipennis1.reset_index(drop=True, inplace=True)
+pseudopunctipennis2.reset_index(drop=True, inplace=True)
+
+pd.concat([pseudopunctipennis1, pseudopunctipennis2], axis=1)
+
+#borro la columna X, Y de pseudopunctipennis_capas
+pseudopunctipennis_capas.drop('X', axis = 1, inplace =True)
+pseudopunctipennis_capas.drop('Y', axis = 1, inplace = True)
+
+pseudopunctipennis_capas.reset_index(drop=True, inplace=True)
+
+pseudopunctipennis.reset_index(drop=True, inplace=True)
+
+pseudopunctipennis_capas = pd.concat([pseudopunctipennis, pseudopunctipennis_capas], axis=1); pseudopunctipennis_capas
+
+"""---
+
+#### Datos nulos
+"""
+
+pseudopunctipennis_capas.isnull().sum()
+
+#borramos los datos faltantes
+pseudopunctipennis_capas = pseudopunctipennis_capas.dropna()
+#borramos la columna fid
+pseudopunctipennis_capas = pseudopunctipennis_capas.drop('fid', axis =1)
+
+"""---
+
+#### Segementación por año
+>[1970-1985)
+>
+>[1985-2000)
+>
+>[2000-2012)
+>
+>[2015-2024]
+"""
+
+pseudopunctipennis_capas_1925_1970 = pseudopunctipennis_capas[(pseudopunctipennis_capas.year >= 1925) & (pseudopunctipennis_capas.year < 1970)] #Se  guardan los datos que fueron  registrados antes de 1970
+pseudopunctipennis_capas_1970_1985 = pseudopunctipennis_capas[(pseudopunctipennis_capas.year >= 1970) & (pseudopunctipennis_capas.year < 1985)]
+pseudopunctipennis_capas_1985_2000 = pseudopunctipennis_capas[(pseudopunctipennis_capas.year >= 1985) & (pseudopunctipennis_capas.year < 2000)]
+pseudopunctipennis_capas_2000_2015 = pseudopunctipennis_capas[(pseudopunctipennis_capas.year >= 2000) & (pseudopunctipennis_capas.year < 2015)]
+pseudopunctipennis_capas_2015_2024 = pseudopunctipennis_capas[(pseudopunctipennis_capas.year >= 2015) & (pseudopunctipennis_capas.year <= 2024)]
+
+"""---
+
+#### Guarda .csv
+"""
+
+pseudopunctipennis_capas.to_csv('pseudopunctipennis_capas.csv', index=False)
+pseudopunctipennis_capas_1925_1970.to_csv('pseudopunctipennis_capas(1925-1970).csv', index=False)
+pseudopunctipennis_capas_1970_1985.to_csv('pseudopunctipennis_capas(1970-1985).csv', index=False)
+pseudopunctipennis_capas_1985_2000.to_csv('pseudopunctipennis_capas(1985-2000).csv', index=False)
+pseudopunctipennis_capas_2000_2015.to_csv('pseudopunctipennis_capas(2000-2015).csv', index=False)
+pseudopunctipennis_capas_2015_2024.to_csv('pseudopunctipennis_capas(2015-2024).csv', index=False)
+
+"""---"""
 
 
