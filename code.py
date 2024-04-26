@@ -1196,5 +1196,177 @@ pseudopunctipennis_capas_2000_2015.to_csv('pseudopunctipennis_capas(2000-2015).c
 pseudopunctipennis_capas_2015_2024.to_csv('pseudopunctipennis_capas(2015-2024).csv', index=False)
 
 """---"""
+"""---
+
+###Olmeca
+
+#### Concatenación de datos
+"""
+
+olmeca_capas = pd.read_csv('/content/drive/MyDrive/Ecologia/Dataset/dataset_capas/Olmeca.csv')
+
+"""Vemos que coincide el orden de la información del Datframe que contiene los valores de las capas bioclimáticas de cada individuo con la información general antes seleccionada del individuo. Por lo que concatenamos estos dos Dataframes"""
+
+#comprobación del orde
+olmeca1 = olmeca_capas[['X', 'Y']]
+olmeca2 = olmeca[['decimalLongitude', 'decimalLatitude']]
+
+olmeca1.reset_index(drop=True, inplace=True)
+olmeca2.reset_index(drop=True, inplace=True)
+
+pd.concat([olmeca1, olmeca2], axis=1)
+
+#borro la columna X, Y de olmeca_capas
+olmeca_capas.drop('X', axis = 1, inplace =True)
+olmeca_capas.drop('Y', axis = 1, inplace = True)
+
+olmeca_capas.reset_index(drop=True, inplace=True)
+
+olmeca.reset_index(drop=True, inplace=True)
+
+olmeca_capas = pd.concat([olmeca, olmeca_capas], axis=1); olmeca_capas
+
+"""---
+
+#### Segementación por año
+>[1970-1985)
+>
+>[1985-2000)
+>
+>[2000-2012)
+>
+>[2015-2024]
+"""
+
+#borramos la columna fid
+olmeca_capas = olmeca_capas.drop('fid', axis =1)
+
+olmeca_capas_1985_2000 = olmeca_capas[(olmeca_capas.year >= 1985) & (olmeca_capas.year < 2000)]
+olmeca_capas_2000_2015 = olmeca_capas[(olmeca_capas.year >= 2000) & (olmeca_capas.year < 2015)]
+
+"""---
+
+#### Guardar en .csv
+"""
+
+olmeca_capas.to_csv('olmeca_capas.csv', index=False)
+olmeca_capas_1985_2000.to_csv('olmeca_capas(1985-2000).csv', index=False)
+olmeca_capas_2000_2015.to_csv('olmeca_capas(2000-2015).csv', index=False)
+
+"""---
+
+### Cruciata
+
+#### Concatenación de datos
+"""
+
+cruciata_capas = pd.read_csv('/content/drive/MyDrive/Ecologia/Dataset/dataset_capas/Cruciata.csv')
+
+"""Vemos que coincide el orden de la información del Datframe que contiene los valores de las capas bioclimáticas de cada individuo con la información general antes seleccionada del individuo. Por lo que concatenamos estos dos Dataframes"""
+
+#comprobación del orde
+cruciata1 = cruciata_capas[['X', 'Y']]
+cruciata2 = cruciata[['decimalLongitude', 'decimalLatitude']]
+
+cruciata1.reset_index(drop=True, inplace=True)
+cruciata2.reset_index(drop=True, inplace=True)
+
+pd.concat([cruciata1, cruciata2], axis=1)
+
+#borro la columna X, Y de cruciata_capas
+cruciata_capas.drop('X', axis = 1, inplace =True)
+cruciata_capas.drop('Y', axis = 1, inplace = True)
+
+cruciata_capas.reset_index(drop=True, inplace=True)
+
+cruciata.reset_index(drop=True, inplace=True)
+
+cruciata_capas = pd.concat([cruciata, cruciata_capas], axis=1); cruciata_capas
+
+"""---
+
+#### Segementación por año
+>[1970-1985)
+>
+>[1985-2000)
+>
+>[2000-2012)
+>
+>[2015-2024]
+"""
+
+#borramos la columna fid
+cruciata_capas = cruciata_capas.drop('fid', axis =1)
+
+cruciata_capas_1985_2000 = cruciata_capas[(cruciata_capas.year >= 1985) & (cruciata_capas.year < 2000)]
+cruciata_capas_2000_2015 = cruciata_capas[(cruciata_capas.year >= 2000) & (cruciata_capas.year < 2015)]
+
+"""---
+
+#### Guardar en .csv
+"""
+
+cruciata_capas.to_csv('cruciata_capas.csv', index=False)
+cruciata_capas_1985_2000.to_csv('cruciata_capas(1985-2000).csv', index=False)
+cruciata_capas_2000_2015.to_csv('cruciata_capas(2000-2015).csv', index=False)
+
+"""---
+
+### Zoosophus
+
+#### Concatenación de datos
+"""
+
+zoosophus_capas = pd.read_csv('/content/drive/MyDrive/Ecologia/Dataset/dataset_capas/Zoosophus.csv')
+
+"""Vemos que coincide el orden de la información del Datframe que contiene los valores de las capas bioclimáticas de cada individuo con la información general antes seleccionada del individuo. Por lo que concatenamos estos dos Dataframes"""
+
+#comprobación del orde
+zoosophus1 = zoosophus_capas[['X', 'Y']]
+zoosophus2 = zoosophus[['decimalLongitude', 'decimalLatitude']]
+
+zoosophus1.reset_index(drop=True, inplace=True)
+zoosophus2.reset_index(drop=True, inplace=True)
+
+pd.concat([zoosophus1, zoosophus2], axis=1)
+
+#borro la columna X, Y de zoosophus_capas
+zoosophus_capas.drop('X', axis = 1, inplace =True)
+zoosophus_capas.drop('Y', axis = 1, inplace = True)
+
+zoosophus_capas.reset_index(drop=True, inplace=True)
+
+zoosophus.reset_index(drop=True, inplace=True)
+
+zoosophus_capas = pd.concat([zoosophus, zoosophus_capas], axis=1); zoosophus_capas
+
+"""---
+
+#### Segementación por año
+>[1970-1985)
+>
+>[1985-2000)
+>
+>[2000-2012)
+>
+>[2015-2024]
+"""
+
+#borramos la columna fid
+zoosophus_capas = zoosophus_capas.drop('fid', axis =1)
+
+zoosophus_capas_1961_1970 = zoosophus_capas[(zoosophus_capas.year >= 1961) & (zoosophus_capas.year < 1970)]
+zoosophus_capas_2000_2015 = zoosophus_capas[(zoosophus_capas.year >= 2000) & (zoosophus_capas.year < 2015)]
+
+"""---
+
+#### Guardar en .csv
+"""
+
+zoosophus_capas.to_csv('zoosophus_capas.csv', index=False)
+zoosophus_capas_1961_1970.to_csv('zoosophus_capas(1961-1970).csv', index=False)
+zoosophus_capas_2000_2015.to_csv('zoosophus_capas(2000-2015).csv', index=False)
+
+"""---"""
 
 
