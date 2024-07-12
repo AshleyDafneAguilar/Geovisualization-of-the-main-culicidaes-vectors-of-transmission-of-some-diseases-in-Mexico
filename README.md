@@ -7,9 +7,15 @@
 ## Author 
 - [Ashley Dafne Aguilar Salinas - UNAM ENES Morelia](https://github.com/AshleyDafneAguilar)
 
+## Abstract
+The following work aims to perform geo-spatial visualizations of the main culicidae, causative agents of diseases such as leishmaniasis,
+dengue and malaria in Mexico; to observe the behavior of some of their climatic conditions during different periods of time. The set of culicidae
+species that were chosen for the analysis of this project was based on the information provided by the articles [4, 7, 12]. The data collection of
+these species was downloaded from the GBIF platform. Each of the data collection was filtered to obtain the desired information, these filters
+are specified in each link [5, 6, 8, 9, 11]
+
 
 ## Introduction 
-The objective of this work is to geovisualize the main species of culicidae, causal agents of diseases such as leishmaniasis, dengue and malaria in Mexico. With the purpose of observing the climatic conditions of their habitat and the coincident presence of cases-vectors of the mentioned diseases. 
 
 
 
@@ -23,5 +29,6 @@ The objective of this work is to geovisualize the main species of culicidae, cau
 - [7] Villarreal-Treviño C, Ríos-Delgado JC, Penilla-Navarro RP, et al. Composición y abundancia de especies de anofelinos según la diversidad de hábitats en México. salud publica mex. 2020;62(4):388-401.
 - [8] GBIF.org (08 April 2024) GBIF Occurrence Download https://doi.org/10.15468/dl.n5n8t6
 - [9] GBIF.org (08 April 2024) GBIF Occurrence Download https://doi.org/10.15468/dl.fvh4kn
-- [10]https://www.paho.org/es/noticias/7-4-2014-diez-enfermedades-transmitidas-por-vectores-que-ponen-riesgo-poblacion-americas
+- [10] Diez enfermedades transmitidas por vectores que ponen en riesgo a la población de las Américas. (s. f.). OPS/OMS | Organización Panamericana de la Salud. https://www.paho.org/es/noticias/7-4-2014-diez-enfermedades-transmitidas-por-vectores-que-ponen-riesgo-poblacion-americas
 - [11] GBIF.org (15 April 2024) GBIF Occurrence Download  https://doi.org/10.15468/dl.y89wuj
+- [12] Adelfo Sánchez Trinidad, Félix Ordoñez Sánchez y otros (2014) Geographical distribution of the Aedes Triseriatus Group (Diptera: Culicidae) in Mexico. 
