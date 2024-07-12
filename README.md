@@ -21,6 +21,7 @@ According to the Pan American Health Organization (PAHO), in recent years, healt
 
 The vector-borne diseases of interest in this project are leishmaniasis, whose causal agent is the bite of the insect lutzomyia olmeca olmeca and potentially also lutzomyia cruciata. Malaria, whose vector of transmission are the mosquitoes of the genus Anopheles, mainly in Mexico the species albimanus and pseudopunctipennis. Finally, dengue, a disease transmitted by mosquitoes of the genus aedes, is studied. The main causative species in the country are aegypti, hendersoni, zoosophus dyar and knab, triseriatus and brelandi zavortink.
 
+The objective of performing a geospatial visualization of the presence of the main species that cause vector-borne diseases of interest in Mexico is to observe the behavior of some of their climatic conditions (mean annual temperature, precipitation and elevation) during different periods of time. It is hoped that this information will be useful in national studies to control mosquito populations of these species and prevent the transmission of the diseases studied or some others in which these mosquitoes are vectors.
 
 ## References
 - [1] Leishmaniasis. (2024, 25 marzo). OPS/OMS | Organización Panamericana de la Salud. https://www.paho.org/es/temas/leishmaniasis
