@@ -1370,3 +1370,252 @@ zoosophus_capas_2000_2015.to_csv('zoosophus_capas(2000-2015).csv', index=False)
 """---"""
 
 
+## Caja y Bigotes/ Anovas
+
+Graficar los cambios **por año** presentados en las capas biocliáticas: **temperatura media anual** (bio_01),**precipitación**(bio_12) y **elevación** (elevation) de las especies *Aegypti*, *Pseudopunctipennis*, *Albimanus*, *Triseratus*, *Olmeca*, *Cruciata* y *Zoosophus*. Supone que los datos tienen una distribución normal.
+
+### Aegypti
+"""
+
+aegypti_bins = [1969, 1985, 2000, 2015]
+year_bins = pd.cut(aegypti_capas['year'], aegypti_bins)
+aegypti_capas['year_bins'] = year_bins
+
+"""#### bio_01"""
+
+aegypti_capas.boxplot(column='bio_01', by='year_bins', figsize=(25, 10))
+plt.xticks(fontsize=15)
+plt.xlabel('Temperatura media anual', fontsize=20)
+plt.savefig('aegypti_anova_bio01.jpg')
+plt.show()
+
+"""#### bio_12"""
+
+aegypti_capas.boxplot(column='bio_12', by='year_bins', figsize=(25, 10))
+plt.xticks(fontsize=15)
+plt.xlabel('Precipitación', fontsize=20)
+plt.savefig('aegypti_anova_bio12.jpg')
+plt.show()
+
+"""#### elevación"""
+
+aegypti_capas.boxplot(column='elevation', by='year_bins', figsize=(25, 10))
+plt.xticks(fontsize=15)
+plt.xlabel('Elevación', fontsize=20)
+plt.savefig('aegypti_anova_elevacion.jpg')
+plt.show()
+
+"""### Pseudopunctipennis"""
+
+pseudopunctipennis_bins = [1924, 1970, 1985, 2000, 2015, 2024]
+year_bins = pd.cut(pseudopunctipennis_capas['year'], pseudopunctipennis_bins)
+pseudopunctipennis_capas['year_bins'] = year_bins
+
+"""#### bio_01"""
+
+pseudopunctipennis_capas.boxplot(column='bio_01', by='year_bins', figsize=(25, 10))
+plt.xticks(fontsize=15)
+plt.xlabel('Temperatura media anual', fontsize=20)
+plt.savefig('pseudopunctipennis_anova_bio01.jpg')
+plt.show()
+
+"""#### bio_12"""
+
+pseudopunctipennis_capas.boxplot(column='bio_12', by='year_bins', figsize=(25, 10))
+plt.xticks(fontsize=15)
+plt.xlabel('Precipitación', fontsize=20)
+plt.savefig('pseudopunctipennis_anova_bio12.jpg')
+plt.show()
+
+"""#### elevación"""
+
+pseudopunctipennis_capas.boxplot(column='elevation', by='year_bins', figsize=(25, 10))
+plt.xticks(fontsize=15)
+plt.xlabel('Elevación', fontsize=20)
+plt.savefig('pseudopunctipennis_anova_elevacion.jpg')
+plt.show()
+
+"""### Albimanus"""
+
+albimanus_bins = [1901, 1970, 1985, 2000, 2015, 2024]
+year_bins = pd.cut(albimanus_capas['year'], albimanus_bins)
+albimanus_capas['year_bins'] = year_bins
+
+"""#### bio_01"""
+
+albimanus_capas.boxplot(column='bio_01', by='year_bins', figsize=(25, 10))
+plt.xticks(fontsize=15)
+plt.xlabel('Temperatura media anual', fontsize=20)
+plt.savefig('albimanus_anova_bio01.jpg')
+plt.show()
+
+"""#### bio_12"""
+
+albimanus_capas.boxplot(column='bio_12', by='year_bins', figsize=(25, 10))
+plt.xticks(fontsize=15)
+plt.xlabel('Precipitación', fontsize=20)
+plt.savefig('albimanus_anova_bio12.jpg')
+plt.show()
+
+"""#### elevación"""
+
+albimanus_capas.boxplot(column='elevation', by='year_bins', figsize=(25, 10))
+plt.xticks(fontsize=15)
+plt.xlabel('Elevación', fontsize=20)
+plt.savefig('albimanus_anova_elevacion.jpg')
+plt.show()
+
+"""### Triseratus"""
+
+triseriatus_bins = [1953, 1970, 1985, 2000, 2015]
+year_bins = pd.cut(triseriatus_capas['year'], triseriatus_bins)
+triseriatus_capas['year_bins'] = year_bins
+
+"""#### bio_01"""
+
+triseriatus_capas.boxplot(column='bio_01', by='year_bins', figsize=(25, 10))
+plt.xticks(fontsize=15)
+plt.xlabel('Temperatura media anual', fontsize=20)
+plt.savefig('triseriatus_anova_bio01.jpg')
+plt.show()
+
+"""#### bio_12"""
+
+triseriatus_capas.boxplot(column='bio_12', by='year_bins', figsize=(25, 10))
+plt.xticks(fontsize=15)
+plt.xlabel('Capa bio_12', fontsize=20)
+plt.savefig('triseriatus_anova_bio12.jpg')
+plt.show()
+
+"""---
+
+#### elevación
+"""
+
+triseriatus_capas.boxplot(column='elevation', by='year_bins', figsize=(25, 10))
+plt.xticks(fontsize=15)
+plt.xlabel('Capa elevación', fontsize=20)
+plt.savefig('triseriatus_anova_elevacion.jpg')
+plt.show()
+
+"""---
+
+### Olmeca
+"""
+
+olmeca_bins = [1985, 2000, 2015]
+year_bins = pd.cut(olmeca_capas['year'], olmeca_bins)
+olmeca_capas['year_bins'] = year_bins
+
+"""#### bio_01"""
+
+olmeca_capas.boxplot(column='bio_01', by='year_bins', figsize=(25, 10))
+plt.xticks(fontsize=15)
+plt.xlabel('Temperatura media anual', fontsize=20)
+plt.savefig('olmeca_anova_bio01.jpg')
+plt.show()
+
+"""---
+
+#### bio_12
+"""
+
+olmeca_capas.boxplot(column='bio_12', by='year_bins', figsize=(25, 10))
+plt.xticks(fontsize=15)
+plt.xlabel('Precipitación', fontsize=20)
+plt.savefig('olmeca_anova_bio12.jpg')
+plt.show()
+
+"""---
+
+#### elevación
+"""
+
+olmeca_capas.boxplot(column='elevation', by='year_bins', figsize=(25, 10))
+plt.xticks(fontsize=15)
+plt.xlabel('Elevación', fontsize=20)
+plt.savefig('olmeca_anova_elevacion.jpg')
+plt.show()
+
+"""---
+
+### Cruciata
+"""
+
+cruciata_bins = [1985, 2000, 2015]
+year_bins = pd.cut(cruciata_capas['year'], cruciata_bins)
+cruciata_capas['year_bins'] = year_bins
+
+"""#### bio_01"""
+
+cruciata_capas.boxplot(column='bio_01', by='year_bins', figsize=(25, 10))
+plt.xticks(fontsize=15)
+plt.xlabel('Temperatura media anual', fontsize=20)
+plt.savefig('cruciata_anova_bio01.jpg')
+plt.show()
+
+"""---
+
+#### bio_12
+"""
+
+cruciata_capas.boxplot(column='bio_12', by='year_bins', figsize=(25, 10))
+plt.xticks(fontsize=15)
+plt.xlabel('Precipitación', fontsize=20)
+plt.savefig('cruciata_anova_bio12.jpg')
+plt.show()
+
+"""---
+
+#### elevación
+"""
+
+cruciata_capas.boxplot(column='elevation', by='year_bins', figsize=(25, 10))
+plt.xticks(fontsize=15)
+plt.xlabel('Elevación', fontsize=20)
+plt.savefig('cruciata_anova_elevacion.jpg')
+plt.show()
+
+"""---
+
+### Zoosophus
+"""
+
+zoosophus_bins = [1961, 1970, 2000, 2015]
+year_bins = pd.cut(zoosophus_capas['year'], zoosophus_bins)
+zoosophus_capas['year_bins'] = year_bins
+
+"""#### bio_01"""
+
+zoosophus_capas.boxplot(column='bio_01', by='year_bins', figsize=(25, 10))
+plt.xticks(fontsize=15)
+plt.xlabel('Temperatura media anual', fontsize=20)
+plt.savefig('zoosophus_anova_bio01.jpg')
+plt.show()
+
+"""---
+
+#### bio_12
+"""
+
+zoosophus_capas.boxplot(column='bio_12', by='year_bins', figsize=(25, 10))
+plt.xticks(fontsize=15)
+plt.xlabel('Precipitación', fontsize=20)
+plt.savefig('zoosophus_anova_bio12.jpg')
+plt.show()
+
+"""---
+
+#### elevación
+"""
+
+zoosophus_capas.boxplot(column='elevation', by='year_bins', figsize=(25, 10))
+plt.xticks(fontsize=15)
+plt.xlabel('Elevación', fontsize=20)
+plt.savefig('zoosophus_anova_elevacion.jpg')
+plt.show()
+
+"""---
+
+
+
