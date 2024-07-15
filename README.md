@@ -8,6 +8,7 @@
 - [Ashley Dafne Aguilar Salinas - UNAM ENES Morelia](https://github.com/AshleyDafneAguilar)
 
 ## Abstract
+
 The following work aims to perform geo-spatial visualizations of the main culicidae, causative agents of diseases such as leishmaniasis,
 dengue and malaria in Mexico; to observe the behavior of some of their climatic conditions during different periods of time. The set of culicidae
 species that were chosen for the analysis of this project was based on the information provided by the articles [4, 7, 12]. The data collection of
@@ -16,6 +17,7 @@ are specified in each link [5, 6, 8, 9, 11]
 
 
 ## Introduction 
+
 Vector-borne diseases are human diseases, with a complex transmission cycle, caused by a great diversity of bacteria, parasites or viruses that are transmitted by some organisms.  These diseases represent a high burden of morbidity and mortality in some communities, causing around 700,000 deaths worldwide, according to data from the World Health Organization (WHO). They also require an overload in the health systems of the countries and high costs.
 According to the Pan American Health Organization (PAHO), in recent years, health systems in the Americas region have faced the challenge of improving epidemiological surveillance of vector-borne diseases to control mosquito populations and prevent the transmission of diseases such as malaria or dengue and leishmaniasis, which are endemic diseases in the region, as well as new arboviruses.
 
@@ -23,7 +25,17 @@ The vector-borne diseases of interest in this project are leishmaniasis, whose c
 
 The objective of performing a geospatial visualization of the presence of the main species that cause vector-borne diseases of interest in Mexico is to observe the behavior of some of their climatic conditions (mean annual temperature, precipitation and elevation) during different periods of time. It is hoped that this information will be useful in national studies to control mosquito populations of these species and prevent the transmission of the diseases studied or some others in which these mosquitoes are vectors.
 
+
+## Conclusions
+
+Observing the behavior of the different species of mosquitoes, we see how through different periods of time they establish a habitat region according to their bioclimatic conditions. Mainly in the southern areas of the country (olmeca-olmeca, cruciata), coastal areas (aegypti, albimanus) and the northwest (triseriatus).
+However, some species of mosquitoes are still dispersed in different regions of the country without being able to establish a preferred zone, which may be due to different factors such as climatic changes in the country, so that the species has to migrate to a region that is in a range of tolerant climatic conditions; another factor that should not be discarded is the amount of points of presence or data that we have in each period of time, in the species that present these cases the amount of data per period of time is variable so it could be due to the fact that in certain periods of time more areas of the country are covered than in others; we can consider that it is possible that for periods of time the range of tolerant climatic conditions of the species had changed, but we observe that they are very drastic changes so it is not very feasible to consider this factor. 
+In order to determine the factor(s) that could provide an answer to the reason for this anomaly, we could further investigate this anomaly in the future.
+
+
+
 ## References
+
 - [1] Leishmaniasis. (2024, 25 marzo). OPS/OMS | Organización Panamericana de la Salud. https://www.paho.org/es/temas/leishmaniasis
 - [2] Leishmaniasis cutánea y mucosa. (s. f.). OPS/OMS | Organización Panamericana de la Salud. https://www.paho.org/es/temas/leishmaniasis/leishmaniasis-cutanea-mucosa
 - [3]World Health Organization: WHO. (2023, 12 enero). Leishmaniasis. https://www.who.int/es/news-room/fact-sheets/detail/leishmaniasis
