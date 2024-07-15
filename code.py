@@ -1617,5 +1617,790 @@ plt.show()
 
 """---
 
+## Prueba de hipótesis $H_0$
 
+> $H0$: En la **hipótesis nula** suponemos que los valores en los periodos temporales se sobrelapan mucho, es decir, **no hubo diferencia significativa**. Para aceptar la hipótesis, la probabilidad $p$ debe ser mayor o igual a $0.05$, es decir, $p\geq0.05$
+>
+> $H1$: En la **hipótesis alterna** suponemos que si hay una gran variación de los valores en cada periodo temporal y se sobrelapan muy poco, es decir, **hubo cambios significativos**. Para aceptar esta hipótesis o **rechazar la hipótesis nula** la probabilidad $p$ debe ser menor a $0.05$, es decir, $p < 0.05$
+
+Se justifica que no se hace t-student porque hay más de 2 grupos de periodos de tiempo y t-studet solo compara 2 grupos
+
+### Aegypti
+"""
+
+#cambiar el tipo de dato de la columna year_bins
+aegypti_capas.year_bins = aegypti_capas.year_bins.astype('str')
+
+"""#### Pruebas de Normalidad y Homegeneidad
+
+Normalidad:
+>Si $p < 0.05$: NO hay normalidad
+>
+> Si $p > 0.05$: SI hay normalidad
+>
+ Homogeneidad:
+> Si $p < 0.05$: NO hay homogeneidad
+>
+> Si $p > 0.05$: SI hay homogeneidad
+
+---
+- **Temperatura media anual $(bio_{01})$**
+---
+"""
+
+# Prueba de normalidad
+aegypti_test_norm = aegypti_capas.groupby('year_bins')['bio_01'].apply(lambda x: sm.stats.lilliefors(x)[1] if len(x) >= 30 else None)
+aegypti_test_norm # observa que no todos los datos no son normales
+
+#prueba de homogeneidad
+aegypti_test_hom = stats.levene(*[group['bio_01'].dropna().values for name, group in aegypti_capas.groupby('year_bins')])
+aegypti_test_hom #vemos que hay homogeneidad entre los datos, es decir, que su media se mantiene similar
+
+"""---
+- **Precipitación $(bio_{12})$**
+---
+"""
+
+# Prueba de normalidad
+aegypti_test_norm = aegypti_capas.groupby('year_bins')['bio_12'].apply(lambda x: sm.stats.lilliefors(x)[1] if len(x) >= 30 else None)
+aegypti_test_norm # observa que no todos los datos no son normales
+
+#prueba de homogeneidad
+aegypti_test_hom = stats.levene(*[group['bio_12'].dropna().values for name, group in aegypti_capas.groupby('year_bins')])
+aegypti_test_hom #vemos que hay homogeneidad entre los datos, es decir, que su media se mantiene similar
+
+"""---
+- **Elevación**
+---
+"""
+
+# Prueba de normalidad
+aegypti_test_norm = aegypti_capas.groupby('year_bins')['elevation'].apply(lambda x: sm.stats.lilliefors(x)[1] if len(x) >= 30 else None)
+aegypti_test_norm # observa que no todos los datos no son normales
+
+#prueba de homogeneidad
+aegypti_test_hom = stats.levene(*[group['elevation'].dropna().values for name, group in aegypti_capas.groupby('year_bins')])
+aegypti_test_hom #vemos que no hay homogeneidad entre los datos, es decir, que sus  media varian
+
+"""---
+
+#### Prueba de Kruskal
+
+No hay trabajamos con datos normales, por ellos aplicamos la prueba de Kruskal para observar si hay cambios significativos.
+
+>Si $p < 0.05$: Hay una diferencias, por lo menos en un grupo
+>
+> Si $p > 0.05$: NO hay diferencias
+
+---
+- **Temperatura media anual $(bio_{01})$**
+---
+"""
+
+#Kruskal-Wallis: NO HAY NORMALIDAD
+aegypti_kruskal = stats.kruskal(*[group['bio_01'].dropna().values for name, group in aegypti_capas.groupby('year_bins')])
+aegypti_kruskal # Se acepta la hipótesis nula, no hay diferencias
+
+"""---
+- **Precipitación $(bio_{12})$**
+---
+"""
+
+#Kruskal-Wallis: NO HAY NORMALIDAD
+aegypti_kruskal = stats.kruskal(*[group['bio_12'].dropna().values for name, group in aegypti_capas.groupby('year_bins')])
+aegypti_kruskal # Se acepta la hipótesis nula, no hay diferencias
+
+"""---
+- **Elevación**
+---
+"""
+
+#Kruskal-Wallis: NO HAY NORMALIDAD
+aegypti_kruskal = stats.kruskal(*[group['elevation'].dropna().values for name, group in aegypti_capas.groupby('year_bins')])
+aegypti_kruskal # Se rechaza la hipótesis nula, hay diferencias
+
+#Observar en que grupos hay diferencias
+pairwise_wilcox_result = aegypti_capas.groupby('year_bins')['bio_01'].apply(lambda x: [stats.mannwhitneyu(x, aegypti_capas[aegypti_capas['year_bins'] == group]['elevation'].dropna())[1] for group in aegypti_capas['year_bins'].unique() if group != x.name])
+pairwise_wilcox_result = pd.DataFrame(pairwise_wilcox_result.tolist(), index=pairwise_wilcox_result.index, columns=[group for group in aegypti_capas['year_bins'].unique() if group != pairwise_wilcox_result.index[0]])
+print(pairwise_wilcox_result)
+
+"""Observamos diferencias significativas en la elevación entre los periodos de $1985$ a $2000$ y $2000$ a $2015$
+
+---
+
+### Pseudopunctipennis
+"""
+
+#cambiar el tipo de dato de la columna year_bins
+pseudopunctipennis_capas.year_bins = pseudopunctipennis_capas.year_bins.astype('str')
+
+"""#### Pruebas de Normalidad y Homegeneidad
+
+Normalidad:
+>Si $p < 0.05$: NO hay normalidad
+>
+> Si $p > 0.05$: SI hay normalidad
+>
+ Homogeneidad:
+> Si $p < 0.05$: NO hay homogeneidad
+>
+> Si $p > 0.05$: SI hay homogeneidad
+
+---
+- **Temperatura media anual $(bio_{01})$**
+---
+"""
+
+# Prueba de normalidad
+pseudopunctipennis_test_norm = pseudopunctipennis_capas.groupby('year_bins')['bio_01'].apply(lambda x: sm.stats.lilliefors(x)[1] if len(x) >= 30 else None)
+pseudopunctipennis_test_norm # observa que no todos los datos no son normales
+
+#prueba de homogeneidad
+pseudopunctipennis_test_hom = stats.levene(*[group['bio_01'].dropna().values for name, group in pseudopunctipennis_capas.groupby('year_bins')])
+pseudopunctipennis_test_hom #vemos que no hay homogeneidad entre los datos, es decir, que su media varia
+
+"""---
+- **Precipitación $(bio_{12})$**
+---
+"""
+
+# Prueba de normalidad
+pseudopunctipennis_test_norm = pseudopunctipennis_capas.groupby('year_bins')['bio_12'].apply(lambda x: sm.stats.lilliefors(x)[1] if len(x) >= 30 else None)
+pseudopunctipennis_test_norm # observa que no todos los datos no son normales
+
+#prueba de homogeneidad
+pseudopunctipennis_test_hom = stats.levene(*[group['bio_12'].dropna().values for name, group in pseudopunctipennis_capas.groupby('year_bins')])
+pseudopunctipennis_test_hom #vemos que no hay homogeneidad entre los datos, es decir, que su media varia
+
+"""---
+- **Elevación**
+---
+"""
+
+# Prueba de normalidad
+pseudopunctipennis_test_norm = pseudopunctipennis_capas.groupby('year_bins')['elevation'].apply(lambda x: sm.stats.lilliefors(x)[1] if len(x) >= 30 else None)
+pseudopunctipennis_test_norm # observa que no todos los datos no son normales
+
+#prueba de homogeneidad
+pseudopunctipennis_test_hom = stats.levene(*[group['bio_12'].dropna().values for name, group in pseudopunctipennis_capas.groupby('year_bins')])
+pseudopunctipennis_test_hom #vemos que no hay homogeneidad entre los datos, es decir, que su media varia
+
+"""---
+
+#### Prueba de Kruskal
+
+No hay trabajamos con datos normales, por ellos aplicamos la prueba de Kruskal para observar si hay cambios significativos.
+
+>Si $p < 0.05$: Hay una diferencias, por lo menos en un grupo
+>
+> Si $p > 0.05$: NO hay diferencias
+
+---
+- **Temperatura media anual $(bio_{01})$**
+---
+"""
+
+#Kruskal-Wallis: NO HAY NORMALIDAD
+pseudopunctipennis_kruskal = stats.kruskal(*[group['bio_01'].dropna().values for name, group in pseudopunctipennis_capas.groupby('year_bins')])
+pseudopunctipennis_kruskal # Se rechaza la hipótesis nula, hay diferencias
+
+#Observar en que grupos hay diferencias
+pairwise_wilcox_result = pseudopunctipennis_capas.groupby('year_bins')['bio_01'].apply(lambda x: [stats.mannwhitneyu(x, pseudopunctipennis_capas[pseudopunctipennis_capas['year_bins'] == group]['bio_01'].dropna())[1] for group in pseudopunctipennis_capas['year_bins'].unique() if group != x.name])
+pairwise_wilcox_result = pd.DataFrame(pairwise_wilcox_result.tolist(), index=pairwise_wilcox_result.index, columns=[group for group in pseudopunctipennis_capas['year_bins'].unique() if group != pairwise_wilcox_result.index[0]])
+print(pairwise_wilcox_result)
+
+"""Observamos que hubo cambios significativos en la temperatura entre los periodos de $1924$ a $1970$ y $2000$ a $2015$
+
+---
+- **Precipitación $(bio_{12})$**
+---
+"""
+
+#Kruskal-Wallis: NO HAY NORMALIDAD
+pseudopunctipennis_kruskal = stats.kruskal(*[group['bio_12'].dropna().values for name, group in pseudopunctipennis_capas.groupby('year_bins')])
+pseudopunctipennis_kruskal # Se rechaza la hipótesis nula, hay diferencias
+
+#Observar en que grupos hay diferencias
+pairwise_wilcox_result = pseudopunctipennis_capas.groupby('year_bins')['bio_12'].apply(lambda x: [stats.mannwhitneyu(x, pseudopunctipennis_capas[pseudopunctipennis_capas['year_bins'] == group]['bio_01'].dropna())[1] for group in pseudopunctipennis_capas['year_bins'].unique() if group != x.name])
+pairwise_wilcox_result = pd.DataFrame(pairwise_wilcox_result.tolist(), index=pairwise_wilcox_result.index, columns=[group for group in pseudopunctipennis_capas['year_bins'].unique() if group != pairwise_wilcox_result.index[0]])
+print(pairwise_wilcox_result)
+
+"""Vemos que hubo diferencias significativas en cuanto la precipitación en todos los periodos de tiempo contra todos. Sin embrago, el cambio más "drástico" fue entre los periodos de tiempo de $1924$ a $1970$ y $2000$ a $2015$ así como entre $2000$ a $2015$ y $2015$ a $2024$. En donde también vemos que hubo una diferencia significativa entre los periodos de $1924$ a $1970$ y $2015$ a $2024$.
+
+---
+- **Elevación**
+---
+"""
+
+#Kruskal-Wallis: NO HAY NORMALIDAD
+pseudopunctipennis_kruskal = stats.kruskal(*[group['elevation'].dropna().values for name, group in pseudopunctipennis_capas.groupby('year_bins')])
+pseudopunctipennis_kruskal # Se rechaza la hipótesis nula, hay diferencias
+
+#Observar en que grupos hay diferencias
+pairwise_wilcox_result = pseudopunctipennis_capas.groupby('year_bins')['elevation'].apply(lambda x: [stats.mannwhitneyu(x, pseudopunctipennis_capas[pseudopunctipennis_capas['year_bins'] == group]['bio_01'].dropna())[1] for group in pseudopunctipennis_capas['year_bins'].unique() if group != x.name])
+pairwise_wilcox_result = pd.DataFrame(pairwise_wilcox_result.tolist(), index=pairwise_wilcox_result.index, columns=[group for group in pseudopunctipennis_capas['year_bins'].unique() if group != pairwise_wilcox_result.index[0]])
+print(pairwise_wilcox_result)
+
+"""Vemos que hubo diferencias significativas en cuanto la elevación en todos los periodos de tiempo contra todos. Sin embrago, el cambio más "drástico" fue entre los periodos de tiempo de  $2000$ a $2015$ y $2015$ a $2024$.
+
+
+---
+
+### Albimanus
+"""
+
+#cambiar el tipo de dato de la columna year_bins
+albimanus_capas.year_bins = albimanus_capas.year_bins.astype('str')
+
+"""#### Pruebas de Normalidad y Homegeneidad
+
+Normalidad:
+>Si $p < 0.05$: NO hay normalidad
+>
+> Si $p > 0.05$: SI hay normalidad
+>
+ Homogeneidad:
+> Si $p < 0.05$: NO hay homogeneidad
+>
+> Si $p > 0.05$: SI hay homogeneidad
+
+---
+- **Temperatura media anual $(bio_{01})$**
+---
+"""
+
+# Prueba de normalidad
+albimanus_test_norm = albimanus_capas.groupby('year_bins')['bio_01'].apply(lambda x: sm.stats.lilliefors(x)[1] if len(x) >= 30 else None)
+albimanus_test_norm # observa que no todos los datos no son normales
+
+#prueba de homogeneidad
+albimanus_test_hom = stats.levene(*[group['bio_01'].dropna().values for name, group in albimanus_capas.groupby('year_bins')])
+albimanus_test_hom #vemos que no hay homogeneidad entre los datos, es decir, que su media varia
+
+"""---
+- **Precipitación $(bio_{12})$**
+---
+"""
+
+# Prueba de normalidad
+albimanus_test_norm = albimanus_capas.groupby('year_bins')['bio_12'].apply(lambda x: sm.stats.lilliefors(x)[1] if len(x) >= 30 else None)
+albimanus_test_norm # observa que no todos los datos no son normales
+
+#prueba de homogeneidad
+albimanus_test_hom = stats.levene(*[group['bio_12'].dropna().values for name, group in albimanus_capas.groupby('year_bins')])
+albimanus_test_hom #vemos que no hay homogeneidad entre los datos, es decir, que su media varia
+
+"""---
+- **Elevación**
+---
+"""
+
+# Prueba de normalidad
+albimanus_test_norm = albimanus_capas.groupby('year_bins')['elevation'].apply(lambda x: sm.stats.lilliefors(x)[1] if len(x) >= 30 else None)
+albimanus_test_norm # observa que no todos los datos no son normales
+
+#prueba de homogeneidad
+albimanus_test_hom = stats.levene(*[group['elevation'].dropna().values for name, group in albimanus_capas.groupby('year_bins')])
+albimanus_test_hom #vemos que no hay homogeneidad entre los datos, es decir, que su media varia
+
+"""---
+
+#### Prueba de Kruskal
+
+No hay trabajamos con datos normales, por ellos aplicamos la prueba de Kruskal para observar si hay cambios significativos.
+
+>Si $p < 0.05$: Hay una diferencias, por lo menos en un grupo
+>
+> Si $p > 0.05$: NO hay diferencias
+
+---
+- **Temperatura media anual $(bio_{01})$**
+---
+"""
+
+#Kruskal-Wallis: NO HAY NORMALIDAD
+albimanus_kruskal = stats.kruskal(*[group['bio_01'].dropna().values for name, group in albimanus_capas.groupby('year_bins')])
+albimanus_kruskal # Se rechaza la hipótesis nula,  hay diferencias
+
+#Observar en que grupos hay diferencias
+pairwise_wilcox_result = albimanus_capas.groupby('year_bins')['bio_01'].apply(lambda x: [stats.mannwhitneyu(x, albimanus_capas[albimanus_capas['year_bins'] == group]['bio_01'].dropna())[1] for group in albimanus_capas['year_bins'].unique() if group != x.name])
+pairwise_wilcox_result = pd.DataFrame(pairwise_wilcox_result.tolist(), index=pairwise_wilcox_result.index, columns=[group for group in albimanus_capas['year_bins'].unique() if group != pairwise_wilcox_result.index[0]])
+print(pairwise_wilcox_result)
+
+"""Vemos que hubo diferencias significativas en cuanto la temperatura en la mayoría de los periodos de tiempo. Sin embrago, se puedo infereir por el valor arrojado que el cambio más "drástico" fue entre los periodos de tiempo de $1970$ a $1985$ y $1985$ a $2000$.
+
+---
+- **Precipitación $(bio_{12})$**
+---
+"""
+
+#Kruskal-Wallis: NO HAY NORMALIDAD
+albimanus_kruskal = stats.kruskal(*[group['bio_12'].dropna().values for name, group in albimanus_capas.groupby('year_bins')])
+albimanus_kruskal # Se rechaza la hipótesis nula,  hay diferencias
+
+#Observar en que grupos hay diferencias
+pairwise_wilcox_result = albimanus_capas.groupby('year_bins')['bio_12'].apply(lambda x: [stats.mannwhitneyu(x, albimanus_capas[albimanus_capas['year_bins'] == group]['bio_12'].dropna())[1] for group in albimanus_capas['year_bins'].unique() if group != x.name])
+pairwise_wilcox_result = pd.DataFrame(pairwise_wilcox_result.tolist(), index=pairwise_wilcox_result.index, columns=[group for group in albimanus_capas['year_bins'].unique() if group != pairwise_wilcox_result.index[0]])
+print(pairwise_wilcox_result)
+
+"""Vemos que hubo diferencias significativas en cuanto la precipitación en la mayor parte de los periodos de tiempo. Sin embrago, se puedo infereir por el valor arrojado que el cambio más "drástico" fue entre los periodos de tiempo de  $1970$  a $1985$  y  $1985$  a  $2000$ .
+
+---
+- **Elevación**
+---
+"""
+
+#Kruskal-Wallis: NO HAY NORMALIDAD
+albimanus_kruskal = stats.kruskal(*[group['elevation'].dropna().values for name, group in albimanus_capas.groupby('year_bins')])
+albimanus_kruskal # Se rechaza la hipótesis nula,  hay diferencias
+
+#Observar en que grupos hay diferencias
+pairwise_wilcox_result = albimanus_capas.groupby('year_bins')['elevation'].apply(lambda x: [stats.mannwhitneyu(x, albimanus_capas[albimanus_capas['year_bins'] == group]['elevation'].dropna())[1] for group in albimanus_capas['year_bins'].unique() if group != x.name])
+pairwise_wilcox_result = pd.DataFrame(pairwise_wilcox_result.tolist(), index=pairwise_wilcox_result.index, columns=[group for group in albimanus_capas['year_bins'].unique() if group != pairwise_wilcox_result.index[0]])
+print(pairwise_wilcox_result)
+
+"""Vemos que hubo diferencias significativas en cuanto la elevación en la mayoría de los periodos de tiempo. Sin embrago, se puedo infereir por el valor arrojado que el cambio más "drástico" fue entre los periodos de tiempo de $1970$ a $1985$ y $1985$ a $2000$.
+
+---
+
+### Triseratus
+"""
+
+#cambiar el tipo de dato de la columna year_bins
+triseriatus_capas.year_bins = triseriatus_capas.year_bins.astype('str')
+
+"""#### Pruebas de Normalidad y Homegeneidad
+
+Normalidad:
+>Si $p < 0.05$: NO hay normalidad
+>
+> Si $p > 0.05$: SI hay normalidad
+>
+ Homogeneidad:
+> Si $p < 0.05$: NO hay homogeneidad
+>
+> Si $p > 0.05$: SI hay homogeneidad
+
+---
+- **Temperatura media anual $(bio_{01})$**
+---
+"""
+
+# Prueba de normalidad
+triseriatus_test_norm = triseriatus_capas.groupby('year_bins')['bio_01'].apply(lambda x: stats.shapiro(x) if len(x) < 30 else None)
+triseriatus_test_norm # observa que en el primer grupo los datos no son normales
+
+#prueba de homogeneidad
+triseriatus_test_hom = stats.levene(*[group['bio_01'].dropna().values for name, group in triseriatus_capas.groupby('year_bins')])
+triseriatus_test_hom #vemos que hay homogeneidad entre los datos, es decir, que su media se mantiene
+
+"""---
+- **Precipitación $(bio_{12})$**
+---
+"""
+
+# Prueba de normalidad
+triseriatus_test_norm = triseriatus_capas.groupby('year_bins')['bio_12'].apply(lambda x: stats.shapiro(x) if len(x) < 30 else None)
+triseriatus_test_norm # observa que en el primer grupo los datos no son normales
+
+#prueba de homogeneidad
+triseriatus_test_hom = stats.levene(*[group['bio_12'].dropna().values for name, group in triseriatus_capas.groupby('year_bins')])
+triseriatus_test_hom #vemos que hay homogeneidad entre los datos, es decir, que su media se mantiene
+
+"""---
+- **Elevación**
+---
+"""
+
+# Prueba de normalidad
+triseriatus_test_norm = triseriatus_capas.groupby('year_bins')['elevation'].apply(lambda x: stats.shapiro(x) if len(x) < 30 else None)
+triseriatus_test_norm # observa que en el primer grupo los datos no son normales
+
+#prueba de homogeneidad
+triseriatus_test_hom = stats.levene(*[group['elevation'].dropna().values for name, group in triseriatus_capas.groupby('year_bins')])
+triseriatus_test_hom #vemos que hay homogeneidad entre los datos, es decir, que su media se mantiene
+
+"""---
+
+#### Prueba de Kruskal
+
+No hay trabajamos con datos normales, por ellos aplicamos la prueba de Kruskal para observar si hay cambios significativos.
+
+>Si $p < 0.05$: Hay una diferencias, por lo menos en un grupo
+>
+> Si $p > 0.05$: NO hay diferencias
+
+---
+- **Temperatura media anual $(bio_{01})$**
+---
+"""
+
+#Kruskal-Wallis: NO HAY NORMALIDAD
+triseriatus_kruskal = stats.kruskal(*[group['bio_01'].dropna().values for name, group in triseriatus_capas.groupby('year_bins')])
+triseriatus_kruskal # Se rechaza la hipótesis nula,  hay diferencias
+
+#Observar en que grupos hay diferencias
+pairwise_wilcox_result = triseriatus_capas.groupby('year_bins')['bio_01'].apply(lambda x: [stats.mannwhitneyu(x, triseriatus_capas[triseriatus_capas['year_bins'] == group]['bio_01'].dropna())[1] for group in triseriatus_capas['year_bins'].unique() if group != x.name])
+pairwise_wilcox_result = pd.DataFrame(pairwise_wilcox_result.tolist(), index=pairwise_wilcox_result.index, columns=[group for group in triseriatus_capas['year_bins'].unique() if group != pairwise_wilcox_result.index[0]])
+print(pairwise_wilcox_result)
+
+"""Vemos que hubo diferencias significativas entre los periodos de tiempo de $1953$ a $1970$ y $2000$ a $2015$.
+
+---
+- **Precipitación $(bio_{12})$**
+---
+"""
+
+#Kruskal-Wallis: NO HAY NORMALIDAD
+triseriatus_kruskal = stats.kruskal(*[group['bio_12'].dropna().values for name, group in triseriatus_capas.groupby('year_bins')])
+triseriatus_kruskal # Se acepta la hipótesis nula, no hay diferencias
+
+"""---
+- **Elevación**
+---
+"""
+
+#Kruskal-Wallis: NO HAY NORMALIDAD
+triseriatus_kruskal = stats.kruskal(*[group['elevation'].dropna().values for name, group in triseriatus_capas.groupby('year_bins')])
+triseriatus_kruskal # Se rechaza la hipótesis nula, hay diferencias
+
+#Observar en que grupos hay diferencias
+pairwise_wilcox_result = triseriatus_capas.groupby('year_bins')['elevation'].apply(lambda x: [stats.mannwhitneyu(x, triseriatus_capas[triseriatus_capas['year_bins'] == group]['elevation'].dropna())[1] for group in triseriatus_capas['year_bins'].unique() if group != x.name])
+pairwise_wilcox_result = pd.DataFrame(pairwise_wilcox_result.tolist(), index=pairwise_wilcox_result.index, columns=[group for group in triseriatus_capas['year_bins'].unique() if group != pairwise_wilcox_result.index[0]])
+print(pairwise_wilcox_result)
+
+"""Vemos que hubo diferencias significativas en cuanto la elevación entre los periodos de tiempo de $1953$ a $1970$ y $1985$ a $2000$.
+
+---
+
+### Olmeca
+"""
+
+#cambiar el tipo de dato de la columna year_bins
+olmeca_capas.year_bins = olmeca_capas.year_bins.astype('str')
+
+"""#### Pruebas de Normalidad y Homegeneidad
+
+Normalidad:
+>Si $p < 0.05$: NO hay normalidad
+>
+> Si $p > 0.05$: SI hay normalidad
+>
+ Homogeneidad:
+> Si $p < 0.05$: NO hay homogeneidad
+>
+> Si $p > 0.05$: SI hay homogeneidad
+
+---
+- **Temperatura media anual $(bio_{01})$**
+---
+"""
+
+# Prueba de normalidad
+olmeca_test_norm = olmeca_capas.groupby('year_bins')['bio_01'].apply(lambda x: sm.stats.lilliefors(x)[1] if len(x) >= 30 else None)
+olmeca_test_norm # observa que no todos los datos no son normales
+
+# prueba de homogeneidad
+olmeca_test_hom = stats.levene(*[group['bio_01'].dropna().values for name, group in olmeca_capas.groupby('year_bins')])
+olmeca_test_hom #vemos que hay homogeneidad entre los datos, es decir, que su media se mantiene similar
+
+"""---
+- **Precipitación $(bio_{12})$**
+---
+"""
+
+# Prueba de normalidad
+olmeca_test_norm = olmeca_capas.groupby('year_bins')['bio_12'].apply(lambda x: sm.stats.lilliefors(x)[1] if len(x) >= 30 else None)
+olmeca_test_norm # observa que no todos los datos no son normales
+
+# prueba de homogeneidad
+olmeca_test_hom = stats.levene(*[group['bio_12'].dropna().values for name, group in olmeca_capas.groupby('year_bins')])
+olmeca_test_hom #vemos que hay homogeneidad entre los datos, es decir, que su media se mantiene similar
+
+"""---
+- **Elevación**
+---
+"""
+
+# Prueba de normalidad
+olmeca_test_norm = olmeca_capas.groupby('year_bins')['elevation'].apply(lambda x: sm.stats.lilliefors(x)[1] if len(x) >= 30 else None)
+olmeca_test_norm # observa que no todos los datos no son normales
+
+# prueba de homogeneidad
+olmeca_test_hom = stats.levene(*[group['elevation'].dropna().values for name, group in olmeca_capas.groupby('year_bins')])
+olmeca_test_hom #vemos que hay homogeneidad entre los datos, es decir, que su media se mantiene similar
+
+"""---
+
+#### Prueba de Kruskal
+
+No hay trabajamos con datos normales, por ellos aplicamos la prueba de Kruskal para observar si hay cambios significativos.
+
+>Si $p < 0.05$: Hay una diferencias, por lo menos en un grupo
+>
+> Si $p > 0.05$: NO hay diferencias
+
+---
+- **Temperatura media anual $(bio_{01})$**
+---
+"""
+
+#Kruskal-Wallis: NO HAY NORMALIDAD
+olmeca_kruskal = stats.kruskal(*[group['bio_01'].dropna().values for name, group in olmeca_capas.groupby('year_bins')])
+olmeca_kruskal # Se rechaza la hipótesis nula, hay diferencias
+
+#Observar en que grupos hay diferencias
+pairwise_wilcox_result = olmeca_capas.groupby('year_bins')['bio_01'].apply(lambda x: [stats.mannwhitneyu(x, olmeca_capas[olmeca_capas['year_bins'] == group]['bio_01'].dropna())[1] for group in olmeca_capas['year_bins'].unique() if group != x.name])
+pairwise_wilcox_result = pd.DataFrame(pairwise_wilcox_result.tolist(), index=pairwise_wilcox_result.index, columns=[group for group in olmeca_capas['year_bins'].unique() if group != pairwise_wilcox_result.index[0]])
+print(pairwise_wilcox_result)
+
+"""Observamos que hay diferenecias entre los periodos de $1985$ a $2000$ y $2000$ a $2015$
+
+---
+- **Precipitación $(bio_{12})$**
+---
+"""
+
+#Kruskal-Wallis: NO HAY NORMALIDAD
+olmeca_kruskal = stats.kruskal(*[group['bio_12'].dropna().values for name, group in olmeca_capas.groupby('year_bins')])
+olmeca_kruskal # Se rechaza la hipótesis nula, hay diferencias
+
+#Observar en que grupos hay diferencias
+pairwise_wilcox_result = olmeca_capas.groupby('year_bins')['bio_12'].apply(lambda x: [stats.mannwhitneyu(x, olmeca_capas[olmeca_capas['year_bins'] == group]['bio_12'].dropna())[1] for group in olmeca_capas['year_bins'].unique() if group != x.name])
+pairwise_wilcox_result = pd.DataFrame(pairwise_wilcox_result.tolist(), index=pairwise_wilcox_result.index, columns=[group for group in olmeca_capas['year_bins'].unique() if group != pairwise_wilcox_result.index[0]])
+print(pairwise_wilcox_result)
+
+"""Observamos que hay diferenecias entre los periodos de $1985$ a $2000$ y $2000$ a $2015$
+
+---
+- **Elevación**
+---
+"""
+
+#Kruskal-Wallis: NO HAY NORMALIDAD
+olmeca_kruskal = stats.kruskal(*[group['elevation'].dropna().values for name, group in olmeca_capas.groupby('year_bins')])
+olmeca_kruskal # Se rechaza la hipótesis nula, hay diferencias
+
+#Observar en que grupos hay diferencias
+pairwise_wilcox_result = olmeca_capas.groupby('year_bins')['elevation'].apply(lambda x: [stats.mannwhitneyu(x, olmeca_capas[olmeca_capas['year_bins'] == group]['elevation'].dropna())[1] for group in olmeca_capas['year_bins'].unique() if group != x.name])
+pairwise_wilcox_result = pd.DataFrame(pairwise_wilcox_result.tolist(), index=pairwise_wilcox_result.index, columns=[group for group in olmeca_capas['year_bins'].unique() if group != pairwise_wilcox_result.index[0]])
+print(pairwise_wilcox_result)
+
+"""Observamos diferencias significativas en la elevación entre los periodos de $1985$ a $2000$ y $2000$ a $2015$
+
+---
+
+### Cruciata
+"""
+
+#cambiar el tipo de dato de la columna year_bins
+cruciata_capas.year_bins = cruciata_capas.year_bins.astype('str')
+
+"""#### Pruebas de Normalidad y Homegeneidad
+
+Normalidad:
+>Si $p < 0.05$: NO hay normalidad
+>
+> Si $p > 0.05$: SI hay normalidad
+>
+ Homogeneidad:
+> Si $p < 0.05$: NO hay homogeneidad
+>
+> Si $p > 0.05$: SI hay homogeneidad
+
+---
+- **Temperatura media anual $(bio_{01})$**
+---
+"""
+
+# Prueba de normalidad
+cruciata_test_norm = cruciata_capas.groupby('year_bins')['bio_01'].apply(lambda x: sm.stats.lilliefors(x)[1] if len(x) >= 30 else None)
+cruciata_test_norm # observa que no todos los datos no son normales
+
+# prueba de homogeneidad
+cruciata_test_hom = stats.levene(*[group['bio_01'].dropna().values for name, group in cruciata_capas.groupby('year_bins')])
+cruciata_test_hom #vemos que no hay homogeneidad entre los datos, es decir, que su media varia
+
+"""---
+- **Precipitación $(bio_{12})$**
+---
+"""
+
+# Prueba de normalidad
+cruciata_test_norm = cruciata_capas.groupby('year_bins')['bio_12'].apply(lambda x: sm.stats.lilliefors(x)[1] if len(x) >= 30 else None)
+cruciata_test_norm # observa que no todos los datos no son normales
+
+# prueba de homogeneidad
+cruciata_test_hom = stats.levene(*[group['bio_12'].dropna().values for name, group in cruciata_capas.groupby('year_bins')])
+cruciata_test_hom #vemos que no hay homogeneidad entre los datos, es decir, que su media varia
+
+"""---
+- **Elevación**
+---
+"""
+
+# Prueba de normalidad
+cruciata_test_norm = cruciata_capas.groupby('year_bins')['elevation'].apply(lambda x: sm.stats.lilliefors(x)[1] if len(x) >= 30 else None)
+cruciata_test_norm # observa que no todos los datos no son normales
+
+# prueba de homogeneidad
+cruciata_test_hom = stats.levene(*[group['elevation'].dropna().values for name, group in cruciata_capas.groupby('year_bins')])
+cruciata_test_hom #vemos que no hay homogeneidad entre los datos, es decir, que su media varia
+
+"""---
+
+#### Prueba de Kruskal
+
+No hay trabajamos con datos normales, por ellos aplicamos la prueba de Kruskal para observar si hay cambios significativos.
+
+>Si $p < 0.05$: Hay una diferencias, por lo menos en un grupo
+>
+> Si $p > 0.05$: NO hay diferencias
+
+---
+- **Temperatura media anual $(bio_{01})$**
+---
+"""
+
+#Kruskal-Wallis: NO HAY NORMALIDAD
+cruciata_kruskal = stats.kruskal(*[group['bio_01'].dropna().values for name, group in cruciata_capas.groupby('year_bins')])
+cruciata_kruskal # Se rechaza la hipótesis nula, hay diferencias
+
+#Observar en que grupos hay diferencias
+pairwise_wilcox_result = cruciata_capas.groupby('year_bins')['bio_01'].apply(lambda x: [stats.mannwhitneyu(x, cruciata_capas[cruciata_capas['year_bins'] == group]['bio_01'].dropna())[1] for group in cruciata_capas['year_bins'].unique() if group != x.name])
+pairwise_wilcox_result = pd.DataFrame(pairwise_wilcox_result.tolist(), index=pairwise_wilcox_result.index, columns=[group for group in cruciata_capas['year_bins'].unique() if group != pairwise_wilcox_result.index[0]])
+print(pairwise_wilcox_result)
+
+"""Observamos que hay diferenecias entre los periodos de $1985$ a $2000$ y $2000$ a $2015$
+
+---
+- **Precipitación $(bio_{12})$**
+---
+"""
+
+#Kruskal-Wallis: NO HAY NORMALIDAD
+cruciata_kruskal = stats.kruskal(*[group['bio_12'].dropna().values for name, group in cruciata_capas.groupby('year_bins')])
+cruciata_kruskal # Se acepta la hipótesis nula, no hay diferencias
+
+"""---
+- **Elevación**
+---
+"""
+
+#Kruskal-Wallis: NO HAY NORMALIDAD
+cruciata_kruskal = stats.kruskal(*[group['elevation'].dropna().values for name, group in cruciata_capas.groupby('year_bins')])
+cruciata_kruskal # Se acepta la hipótesis nula, no hay diferencias
+
+"""---
+
+### Zoosophus
+"""
+
+#cambiar el tipo de dato de la columna year_bins
+zoosophus_capas.year_bins = zoosophus_capas.year_bins.astype('str')
+
+"""#### Pruebas de Normalidad y Homegeneidad
+
+Normalidad:
+>Si $p < 0.05$: NO hay normalidad
+>
+> Si $p > 0.05$: SI hay normalidad
+>
+ Homogeneidad:
+> Si $p < 0.05$: NO hay homogeneidad
+>
+> Si $p > 0.05$: SI hay homogeneidad
+
+---
+- **Temperatura media anual $(bio_{01})$**
+---
+"""
+
+# Prueba de normalidad
+zoosophus_test_norm = zoosophus_capas.groupby('year_bins')['bio_01'].apply(lambda x: stats.shapiro(x) if len(x) < 30 else None)
+zoosophus_test_norm # observa que no todos los datos no son normales
+
+# prueba de homogeneidad
+zoosophus_test_hom = stats.levene(*[group['bio_01'].dropna().values for name, group in zoosophus_capas.groupby('year_bins')])
+zoosophus_test_hom #vemos que no hay homogeneidad entre los datos, es decir, que su media varia
+
+"""---
+- **Precipitación $(bio_{12})$**
+---
+"""
+
+# Prueba de normalidad
+zoosophus_test_norm = zoosophus_capas.groupby('year_bins')['bio_12'].apply(lambda x: stats.shapiro(x) if len(x) < 30 else None)
+zoosophus_test_norm # observa que no todos los datos no son normales
+
+# prueba de homogeneidad
+zoosophus_test_hom = stats.levene(*[group['bio_12'].dropna().values for name, group in zoosophus_capas.groupby('year_bins')])
+zoosophus_test_hom #vemos que no hay homogeneidad entre los datos, es decir, que su media varia
+
+"""---
+- **Elevación**
+---
+"""
+
+# Prueba de normalidad
+zoosophus_test_norm = zoosophus_capas.groupby('year_bins')['elevation'].apply(lambda x: stats.shapiro(x) if len(x) < 30 else None)
+zoosophus_test_norm # observa que no todos los datos no son normales
+
+# prueba de homogeneidad
+zoosophus_test_hom = stats.levene(*[group['elevation'].dropna().values for name, group in zoosophus_capas.groupby('year_bins')])
+zoosophus_test_hom #vemos que no hay homogeneidad entre los datos, es decir, que su media varia
+
+"""---
+
+#### Prueba de Kruskal
+
+No hay trabajamos con datos normales, por ellos aplicamos la prueba de Kruskal para observar si hay cambios significativos.
+
+>Si $p < 0.05$: Hay una diferencias, por lo menos en un grupo
+>
+> Si $p > 0.05$: NO hay diferencias
+
+---
+- **Temperatura media anual $(bio_{01})$**
+---
+"""
+
+#Kruskal-Wallis: NO HAY NORMALIDAD
+zoosophus_kruskal = stats.kruskal(*[group['bio_01'].dropna().values for name, group in zoosophus_capas.groupby('year_bins')])
+zoosophus_kruskal # Se acepta la hipótesis nula, no hay diferencias
+
+"""---
+- **Precipitación $(bio_{12})$**
+---
+"""
+
+#Kruskal-Wallis: NO HAY NORMALIDAD
+zoosophus_kruskal = stats.kruskal(*[group['bio_12'].dropna().values for name, group in zoosophus_capas.groupby('year_bins')])
+zoosophus_kruskal # Se rechaza la hipótesis nula, hay diferencias
+
+#Observar en que grupos hay diferencias
+pairwise_wilcox_result = zoosophus_capas.groupby('year_bins')['bio_12'].apply(lambda x: [stats.mannwhitneyu(x, zoosophus_capas[zoosophus_capas['year_bins'] == group]['bio_12'].dropna())[1] for group in zoosophus_capas['year_bins'].unique() if group != x.name])
+pairwise_wilcox_result = pd.DataFrame(pairwise_wilcox_result.tolist(), index=pairwise_wilcox_result.index, columns=[group for group in zoosophus_capas['year_bins'].unique() if group != pairwise_wilcox_result.index[0]])
+print(pairwise_wilcox_result)
+
+"""Observamos que hay diferenecias entre únicos dos periodos de $1961$ a $1970$ y $2000$ a $2015$
+
+---
+- **Elevación**
+---
+"""
+
+#Kruskal-Wallis: NO HAY NORMALIDAD
+zoosophus_kruskal = stats.kruskal(*[group['elevation'].dropna().values for name, group in zoosophus_capas.groupby('year_bins')])
+zoosophus_kruskal # Se rechaza la hipótesis nula, hay diferencias
+
+#Observar en que grupos hay diferencias
+pairwise_wilcox_result = zoosophus_capas.groupby('year_bins')['elevation'].apply(lambda x: [stats.mannwhitneyu(x, zoosophus_capas[zoosophus_capas['year_bins'] == group]['bio_12'].dropna())[1] for group in zoosophus_capas['year_bins'].unique() if group != x.name])
+pairwise_wilcox_result = pd.DataFrame(pairwise_wilcox_result.tolist(), index=pairwise_wilcox_result.index, columns=[group for group in zoosophus_capas['year_bins'].unique() if group != pairwise_wilcox_result.index[0]])
+print(pairwise_wilcox_result)
+
+"""Observamos que hay diferenecias entre únicos dos periodos de $1961$ a $1970$ y $2000$ a $2015$
+
+---
+"""
 
