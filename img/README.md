@@ -1,0 +1,1 @@
+The **Mapas.zip** file contains the mapping of the species either on a map of Mexico with state or municipal division by time periods. Where the states or municipalities where the points of presence are located are highlighted. 
