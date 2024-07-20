@@ -1,2 +1,4 @@
 The **original datasets** from which information was extracted for the species of interest in the project can be found on the main page as **csv files**. 
 The dataset from which information was extracted for aedes brelandi, hendersoni, triseriatus and zoosophus species is shown as a zip file **(Aedes.zip)** which contains the csv file of the dataset. This datset is presented in this format due to the weight of the file.
+
+The folder **dataset_año** contains folders with the name of each species, in each folder there is a clean dataset, in csv format, which contains unique information of the species; by means of this dataset the segmentation is made by periods of time of presence of the species. This information is saved in datasets that are also found inside the folder of each species as files with csv extension.
