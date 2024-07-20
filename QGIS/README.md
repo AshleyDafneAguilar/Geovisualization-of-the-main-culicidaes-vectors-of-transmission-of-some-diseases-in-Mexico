@@ -4,3 +4,5 @@ The file **pointsamplingtool-0.5.4.zip** is used to install the pluting Point Sa
 The **files** with **.tif** extension are related to the bioclimatic layers used in the project.
 The **dest23gw.zip** file contains the file *dest23gw.shp* which is a layer that marks the state division of Mexico. A municipal division from the *mun23gw.shp* file contained in the .zip file download at [mun23gwp](http://geoportal.conabio.gob.mx/metadatos/doc/html/mun23gw.html) is also used.This information was downloaded from the geoportal CONABIO web page ([dest23gw](http://geoportal.conabio.gob.mx/metadatos/doc/html/dest23gw.html),  [mun23gw](http://geoportal.conabio.gob.mx/metadatos/doc/html/mun23gw.html))
 
+Finally, the files **Estatal.qgz** and **Municipal.qgz** show how the selected species were mapped for each map of Mexico with state or municipal division respectively. 
+
