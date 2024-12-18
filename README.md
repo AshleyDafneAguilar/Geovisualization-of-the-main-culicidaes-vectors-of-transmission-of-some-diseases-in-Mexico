@@ -7,6 +7,8 @@
 ## Author 
 - [Ashley Dafne Aguilar Salinas - UNAM ENES Morelia](https://github.com/AshleyDafneAguilar)
 
+---
+
 ## Abstract
 
 The following work aims to perform geo-spatial visualizations of the main culicidae, causative agents of diseases such as leishmaniasis,
@@ -15,6 +17,7 @@ species that were chosen for the analysis of this project was based on the infor
 these species was downloaded from the GBIF platform. Each of the data collection was filtered to obtain the desired information, these filters
 are specified in each link [5, 6, 8, 9, 11]
 
+---
 
 ## Introduction 
 
@@ -25,6 +28,7 @@ The vector-borne diseases of interest in this project are leishmaniasis, whose c
 
 The objective of performing a geospatial visualization of the presence of the main species that cause vector-borne diseases of interest in Mexico is to observe the behavior of some of their climatic conditions (mean annual temperature, precipitation and elevation) during different periods of time. It is hoped that this information will be useful in national studies to control mosquito populations of these species and prevent the transmission of the diseases studied or some others in which these mosquitoes are vectors.
 
+---
 
 ## Conclusions
 
@@ -32,7 +36,7 @@ Observing the behavior of the different species of mosquitoes, we see how throug
 However, some species of mosquitoes are still dispersed in different regions of the country without being able to establish a preferred zone, which may be due to different factors such as climatic changes in the country, so that the species has to migrate to a region that is in a range of tolerant climatic conditions; another factor that should not be discarded is the amount of points of presence or data that we have in each period of time, in the species that present these cases the amount of data per period of time is variable so it could be due to the fact that in certain periods of time more areas of the country are covered than in others; we can consider that it is possible that for periods of time the range of tolerant climatic conditions of the species had changed, but we observe that they are very drastic changes so it is not very feasible to consider this factor. 
 In order to determine the factor(s) that could provide an answer to the reason for this anomaly, we could further investigate this anomaly in the future.
 
-
+---
 
 ## References
 
